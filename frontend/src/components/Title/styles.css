@@ -1,0 +1,29 @@
+.h1-title{
+   color: #000;
+  font-weight: 600;
+  line-height: 32px;
+  font-size: 24px;
+  opacity: 0.8;
+  font-family: sans-serif;
+}
+.h1{
+ 
+ 
+    display: flex;
+   justify-content: center;
+   opacity: 0.8;
+}
+
+.h2{
+font-size: 18px;
+   display: flex;
+   justify-content: flex-start;
+margin:  20px 0;
+   
+}
+
+
+
+
+
+

@@ -1,0 +1,31 @@
+.busca{
+
+    width: 227px;
+    height: 48px;
+display: flex;
+align-items: center;
+
+
+}
+
+  .lupa{
+     
+    float:right;
+    margin:3px 0px 0px -40px;
+    cursor:pointer;
+    display: inline;
+    color: var(--gray-10);
+    
+  }
+  @media (max-width: 768px) {
+  
+    .busca{
+      /* padding-top: 20px; */
+      width: 100%;
+        
+    }
+    .pesquisa{
+      width: 100%;
+    }
+  
+  }

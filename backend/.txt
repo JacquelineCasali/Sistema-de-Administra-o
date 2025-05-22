@@ -1,0 +1,26 @@
+1 login possui n repositorio 
+1 repositorio pertence n login 
+relacionamento 
+1:1 
+1:n 
+tabela pivo n:n
+
+login_repositorio
+userId
+repositorioId
+
+nao armazena mais o id do usuario no repositorio
+
+
+token de autenticação 
+HTTP
+headers - cabeçalho 
+    Authentication
+Body -corpo
+
+enviar token no postman vai em autenticação (Auth)
+type= bearer-token
+//criando migration
+//npx sequelize-cli migration:generate --name create-areas-table
+// atualizando migration
+npx sequelize-cli migration:generate --name add-areaId-to-processes

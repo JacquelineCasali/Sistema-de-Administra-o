@@ -1,0 +1,99 @@
+.body{
+  /* background-color:rgb(5, 46, 22) ; */
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  /* width: 100%; */
+
+ }
+ .form{
+  justify-content: center;
+  gap: 40px;
+ align-items: center;
+ display: flex;
+ flex-direction: column;
+ border:1px solid rgb(13, 110, 253);
+ border-radius: 10px;
+ 
+     /* margin: 15px 0; */
+   }
+   
+
+ .formulario-login{
+ 
+   background-color: #fff;
+   border-radius: 10px;
+   padding: 30px;
+   gap: 40px;
+
+ width: 384px;
+
+ }
+
+.mar{
+  margin-top: 50px;
+}
+
+
+ 
+ 
+ 
+   .input-senha{
+  /* position: relative; */
+  display: flex;
+  align-items: center;
+   }
+ .icon  {
+
+  margin:20px 0px 0px -40px;
+  display: inline;
+  outline: 2px solid transparent;
+  color:rgb(17, 24, 39) ;
+  opacity: 0.7;
+ }
+
+
+
+ .text-esqueceu{
+  justify-content: flex-end;
+  display: flex;
+  margin: 20px  0 16px     0;
+ 
+  text-decoration-line: underline;
+  font-weight: 500;
+  color: rgb(13, 110, 253);
+  line-height: 24px;
+  font-size: 16px;
+cursor: pointer;
+ }
+ .form-control{
+  padding: 12px;
+  margin-top: 16px;
+  
+  color:rgb(17, 24, 39) ;
+  background-color:rgb(243 244 246) ;
+
+  outline-offset: 2px;
+  outline: 2px solid transparent;
+
+  opacity: 0.7;
+  
+  }
+
+
+  
+   /* responsividade */
+   @media (max-width: 480px) {
+    
+   }
+   
+   @media (max-width: 380px) {
+    
+   }
+   @media screen and (max-width:768px) {
+   }
+   
+       @media screen and (max-width: 1200px) {
+         }

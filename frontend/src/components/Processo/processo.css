@@ -1,0 +1,167 @@
+
+.processos-container{
+  display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-gap: 10px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group select {
+  width: 60%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.processo-card {
+  background: #f8f9fa;
+  padding: 15px;
+  border-left: 5px solid #007bff;
+  margin-bottom: 15px;
+  border-radius: 5px;
+}
+.processo-detalhe{
+  display: inline-flex;
+  gap: 10px;
+}
+
+.subprocesso-card {
+  background:var(--branco);
+  padding: 15px;
+  border-left: 5px solid var(--primary);
+  margin-bottom: 15px;
+  border-radius: 5px;
+}
+.subprocesso{
+  background:var(--branco);
+  padding: 20px ;
+  font-size: 18px;
+  border-radius: 20px;
+}
+.btn-toggle {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.btn-toggle:hover {
+  background: #0056b3;
+}
+
+.menu-sections{
+  display: flex;
+}
+.btn-cadastro{
+  background-color: #0275d8;
+  color: white;
+  font-weight: bold;
+ 
+  bottom: 100px;
+ 
+  transition: all 0.1s linear 0.1s;
+ 
+  padding: 12px;
+  border-radius: 20px;
+font-size: 18px;
+
+
+text-decoration: none;
+display: flex;
+justify-content: center;
+}
+
+.btn-cadastro:hover {
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 7px 0px;
+  transform: scale(1.1);
+}
+.section{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.cabecalho{
+  display: inline-flex  ;
+      gap: 10px;
+      flex-direction: row-reverse;
+}
+.detalhes{
+  display: flex;
+  flex-direction: column;
+}
+.detalhes-inferior{
+  display: flex;
+ flex-direction: column;
+  }
+
+.documentacao{
+  cursor: pointer;
+  color: #0275d8;
+  font-weight: 600;
+  
+  text-decoration: underline #0275d8 2px;
+}
+.documentacao:hover{
+  color: green;
+  text-decoration: underline green 2px;
+}
+
+/* Botões de paginação */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.pagination button:hover {
+  background: #0056b3;
+}
+
+.pagination button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+
+@media (max-width: 768px) {
+  
+.processos-container{
+
+flex-direction: column;
+display: flex;
+align-items: center;
+} 
+.processo-card{
+  width: 90%;
+  margin-bottom: 0;
+}
+.detalhes{
+  display: flex;
+  flex-direction: column;
+}
+h2,p{
+  margin-bottom: 5px;
+}
+
+.section{
+  display: flex;
+  flex-direction: column;
+}
+}
