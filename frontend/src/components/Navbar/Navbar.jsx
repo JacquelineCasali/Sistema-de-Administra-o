@@ -28,7 +28,7 @@ export default function Navbar() {
     <header className="header">
       <nav className="nav-bar">
         <h2
-        className="nav-h2">Gestão de Processo</h2>
+        className="nav-h2"> Sistema Administrativo</h2>
    
 
         <ul className={`nav-links ${menuAberto ? "nav-active" : ""}`}>

@@ -43,5 +43,34 @@ const loginController = {
   },
 
   //cadastrar
+    async senha(req, res) {
+   
+   
+    const { email, password } = req.body;
+    const users = await user.findOne({ where: { email } });
+   
+   
+    if (!users) {
+      return res.status(422).json({message: `Email ${email} não encontrado` });
+    }else{
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword=await bcrypt.hash(password,salt)
+      await user.update(
+        { password: hashedPassword },
+        { where: { email } }
+      )
+    }
+    const{id}=users;
+     return res.json({
+       users:{
+        id, email
+       },
+       message:'Atualizada com sucesso'
+     }
+      
+     );
+  
+  },
+
 };
 module.exports = loginController;

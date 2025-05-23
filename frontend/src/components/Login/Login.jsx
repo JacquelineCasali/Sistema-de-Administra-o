@@ -38,7 +38,7 @@ export default function Login() {
       <section className="body">
         <form onSubmit={handleLogin} className="form">
           <div className="formulario-login">
-            <Title>Login</Title>
+            <Title text="Login" theme="h1"/>
 
             <div className="input-senha">
               <input

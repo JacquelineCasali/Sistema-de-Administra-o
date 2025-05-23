@@ -6,3 +6,7 @@ const api = axios.create({
 
 export default api;
 
+export const createSenha = async (email, password) => {
+  const url = `/senha`;
+  return api.post(url, {email: email, password: password});
+};

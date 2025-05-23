@@ -2,7 +2,7 @@
 Este projeto é uma aplicação permite que administradores gerenciem transações por meio do upload de planilhas e que usuários acompanhem seus extratos e carteiras de pontos.
 
 ## Vídeo do Projeto 
-https://github.com/user-attachments/assets/ad14cd49-8d44-43b9-aff0-bc3a193b3c55
+
 
 
 ## 🚀 Tecnologias Utilizadas
@@ -64,31 +64,36 @@ $ https://github.com/JacquelineCasali/Sistema-de-Administra-o.git
 
 ## 🔧 Backend
 
-Acesse a pasta backend.
+1. Acesse a pasta backend.
 
-Instale as dependências:
+2.Instale as dependências:
 npm install 
 
-2. Configure o arquivo .env:
-Crie um banco de dados MySQL e configure o arquivo .env com:
-
+3. Configure o arquivo .env:
 - DB_HOST=localhost
 - DB_USER=root
 - DB_PASSWORD=senha
 - DB_NAME=nome_do_banco
 - JWT_SECRET=sua_chave_secreta
 
-3.Instalar Dependências
+4.Execute as migrations:
+npx sequelize db:migrate
 
-4.
- Instalar Dependências
-Back-end
-- $ cd backend
-- $ npm install
+5.Inicie o servidor:
+npm start
 
-Front-end
+🚀 O backend estará rodando em http://localhost:3333
+
+💻 Frontend
+
+1. Acesse a pasta frontend.
+
 - $ cd frontend
+
+2. Instale as dependências:
+
 - $ npm install
+
 
 ## 4️⃣ Executar o Projeto
 Rodar o servidor (Node.js + Express + MySQL)
@@ -106,4 +111,5 @@ Rodar o front-end (React.js)
 É necessário deixar o backend rodando no terminal para que os dados sejam visualizados no projeto.
 
 ## 📝 Projeto Desenvolvido por 
-Jacqueline Casali
+Jacqueline Casali 
+https://www.linkedin.com/in/jaquelinecasali/

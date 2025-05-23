@@ -1,9 +1,7 @@
 'use strict';
 const sequelize = require("../config/database");
 const user=require("./user")
-const area = require("./area");
-const processo = require("./processo");
- const subprocesso = require("./subprocesso");
+
 
 
 const syncDatabase = async () => {
@@ -16,5 +14,5 @@ await sequelize.sync({ alter: false });
   }
 };
 
-module.exports = { sequelize, syncDatabase,user,area,
-  processo,subprocesso };
+module.exports = { sequelize, syncDatabase,user
+   };
