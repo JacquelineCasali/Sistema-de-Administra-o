@@ -4,13 +4,13 @@ const sequelize = require("../config/database");
 
 const transaction = sequelize.define("Transaction", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  cpf: { type: DataTypes.STRING, allowNull: false, unique:true,
-    validate:{
-      notEmpty:{
-        msg:"Campo cpf não pode ser vazio"
-      },
-    }  
-   },
+  // cpf: { type: DataTypes.STRING, allowNull: false,
+  //   validate:{
+  //     notEmpty:{
+  //       msg:"Campo cpf não pode ser vazio"
+  //     },
+  //   }  
+  //  },
   description:{type:DataTypes.STRING,allowNull: false,
     validate:{
       notEmpty:{

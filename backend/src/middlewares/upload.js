@@ -3,6 +3,7 @@
 const multer  = require('multer');
 const crypto=require("crypto");
 const path=require('path')
+const fs = require("fs");
 
 // Realizar upload de arquivo
 module.exports = (multer({

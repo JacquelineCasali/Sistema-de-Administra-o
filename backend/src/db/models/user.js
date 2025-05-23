@@ -39,6 +39,19 @@ const user = sequelize.define(
       },
     },
     role: { type: DataTypes.ENUM("admin", "user"), defaultValue: "user" },
+      cpf: { type: DataTypes.STRING, allowNull: false, unique: true,
+    validate:{
+      
+      isLength:{
+        min:11,
+max:11,
+  msg: "CPF precisa ter exatamente 11 dígitos",
+notEmpty:{
+        msg:"Campo cpf não pode ser vazio"
+      },
+      }
+    }  
+   },
   },
   {
     timeStamp: true,

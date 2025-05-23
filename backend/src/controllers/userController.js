@@ -7,7 +7,7 @@ create:async (req, res) => {
    
   try {
     
-      const { name, email,password,role  } = req.body;
+      const { name, email,password,role,cpf  } = req.body;
          // Se não houver usuário logado (rota pública), sempre cria como "user"
      const isAdminRequest = req.user?.role === "admin";
 
@@ -18,9 +18,12 @@ create:async (req, res) => {
       if (users) {
         return res.status(422).json({message: `Email ${email} ou nome ${name} já cadastrado`});
       }
+      
       const salt = await bcrypt.genSalt(10);
       const hashedPassword=await bcrypt.hash(password,salt);
-      const novoUsuario = await user.create({ name, email,password:hashedPassword,role:roleToSave });
+      const novoUsuario = await user.create({ name, email,password:hashedPassword,role:roleToSave ,
+        cpf: cpf.toString().replace(/\D/g, ""), // Remove qualquer caractere que não seja número
+      });
       res.status(201).json(novoUsuario);
     } catch (error) {
       console.error(error);
@@ -57,7 +60,7 @@ listar: async (req, res) => {
   async update(req, res) {
     try {
       const { id } = req.params;
-      const { name,email, password,role } = req.body;
+      const { name,email, password,role ,cpf} = req.body;
       const users = await user.findOne({ where: { id } });
       if (!users) {
         return res.status(404).json({
@@ -67,7 +70,9 @@ listar: async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword=await bcrypt.hash(password,salt)
         await user.update(
-          { name,email, password:hashedPassword,role },
+          { name,email, password:hashedPassword,role,
+            cpf: cpf.toString().replace(/\D/g, "") 
+           },
           { where: { id } }
         );
         return res.status(200).json({

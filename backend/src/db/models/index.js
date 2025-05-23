@@ -3,7 +3,9 @@ const sequelize = require("../config/database");
 const user=require("./user")
 const transaction=require("./transaction")
 
+//hasMany- muitas transações
 user.hasMany(transaction, { foreignKey: "userId" });
+//belongsTo - uma trasação um usuario
 transaction.belongsTo(user, { foreignKey: "userId" });
 
 const syncDatabase = async () => {

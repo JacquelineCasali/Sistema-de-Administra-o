@@ -3,6 +3,9 @@ const express = require("express");
 const loginController = require("../controllers/loginController");
 const ValidateToken = require("../middlewares/token");
 const IsAdmin = require("../middlewares/IsAdmin");
+const uploadController = require("../controllers/uploadController");
+const upload = require("../middlewares/upload");
+const transactionController = require("../controllers/transactionController");
 
 const router = express.Router();
 router.post('/login',loginController.login)
@@ -14,7 +17,8 @@ router.get('/user',ValidateToken,IsAdmin,userController.listar)
 router.get('/user/:id', ValidateToken,userController.ler)
 router.put("/user/:id", ValidateToken,userController.update);
 router.delete("/user/:id",ValidateToken, userController.delete);
-
+router.post("/upload",ValidateToken,IsAdmin,upload.single('file'), uploadController.upload);
+router.post("/transacoes",ValidateToken, transactionController.create);
 // router.get('/extrato',ValidateToken,usuarioController.extrato)
 // router.get('/carteira',ValidateToken,usuarioController.carteira)
 //admin
