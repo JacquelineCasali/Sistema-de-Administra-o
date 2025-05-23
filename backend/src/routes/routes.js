@@ -18,10 +18,15 @@ router.get('/user/:id', ValidateToken,userController.ler)
 router.put("/user/:id", ValidateToken,userController.update);
 router.delete("/user/:id",ValidateToken, userController.delete);
 router.post("/upload",ValidateToken,IsAdmin,upload.single('file'), uploadController.upload);
-router.post("/transacoes",ValidateToken, transactionController.create);
-// router.get('/extrato',ValidateToken,usuarioController.extrato)
-// router.get('/carteira',ValidateToken,usuarioController.carteira)
-//admin
-// router.get('/relatorio',ValidateToken,IsAdmin,admController.listar)
+//transação manual 
+router.post("/transacoes",ValidateToken,IsAdmin, transactionController.create);
+//filtro
+router.get("/admin/transactions",ValidateToken, IsAdmin,transactionController.admin);
+//extrato
+router.get('/transactions', ValidateToken, transactionController.extract);
+//status
+router.get('/status', ValidateToken, transactionController.status);
+
+
 
 module.exports=router;

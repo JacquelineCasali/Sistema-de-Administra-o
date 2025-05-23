@@ -42,9 +42,8 @@ const user = sequelize.define(
       cpf: { type: DataTypes.STRING, allowNull: false, unique: true,
     validate:{
       
-      isLength:{
-        min:11,
-max:11,
+      len:{
+   args: [11, 11],
   msg: "CPF precisa ter exatamente 11 dígitos",
 notEmpty:{
         msg:"Campo cpf não pode ser vazio"
