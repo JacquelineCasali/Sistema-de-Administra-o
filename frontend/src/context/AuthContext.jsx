@@ -18,13 +18,16 @@ export default function AuthProvider({ children }) {
   const login = async (email, password) => {
     try {
       const res = await api.post("/login", { email, password });
-      setUser(res.data.users);
-      setToken(res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.users));
+     const {users,token}=res.data
+      // setUser(res.data.users);
+      // setToken(res.data.token);
+      localStorage.setItem("user", JSON.stringify(users));
       localStorage.setItem("token", res.data.token);
-      api.defaults.headers.Authorization = `Bearer ${res.data.token}`;
-
-      console.log("login", res.data);
+      api.defaults.headers.Authorization = `Bearer ${token}`;
+setUser(users);
+ console.log("login", res.data);
+return users;
+     
     } catch (err) {
       toast.error(err.response.data.message);
       console.error("Login error:", err);
@@ -41,6 +44,7 @@ export default function AuthProvider({ children }) {
   return (
     <AuthContext.Provider
       value={{
+    
         token,
         user,
         login,

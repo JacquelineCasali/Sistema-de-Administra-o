@@ -15,6 +15,7 @@ const ValidateToken = (req, res, next) => {
   jwt.verify(token, process.env.APP_SECRET, (err, decoded) => {
     if (err) return res.status(401).json({ error: "Token inválido" });
     req.userId = decoded.userId;
+    req.userRole = decoded.role;
     next();
   });
 };

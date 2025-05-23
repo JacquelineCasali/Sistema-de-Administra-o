@@ -6,6 +6,10 @@ import AuthProvider from "../context/AuthContext";
 import CadastroUsuario from "../page/CadastroUsuario";
 import Home from "../page/Home";
 import EditarSenha from "../components/User/EditarSenha";
+import AdminRoute from "./AdminRoute";
+import Extrato from "../page/User/Extrato";
+import Carteira from "../page/User/Carteira";
+import Relatorio from "../page/Admin/Relatorio";
 
 const AppRoutes = () => {
 
@@ -19,12 +23,13 @@ const AppRoutes = () => {
         
           <Routes>
             <Route path="/login" element={<LoginPage />} />
-                   <Route exact path="/senha" element={
+      <Route exact path="/senha" element={
             
  <EditarSenha/>
     
            } />
             <Route  path="/cadastro" element={<CadastroUsuario />} />
+  
             <Route
               
               path="/edit/:id"
@@ -43,15 +48,63 @@ const AppRoutes = () => {
                 </PrivateRoute>
               }
             >
-                  
-              {/* <Route
-                path="area"
+         
+              <Route
+                path="/"
                 element={
                   <PrivateRoute>
-                    <AreaPage />
+                    <Extrato  />
                   </PrivateRoute>
                 }
-              /> */}
+              />
+                    <Route
+                path="carteira"
+                element={
+                  <PrivateRoute>
+                    <Carteira   />
+                  </PrivateRoute>
+                }
+              />
+            </Route>
+
+
+       <Route
+              exact
+              path="/admin"
+              element={
+                <AdminRoute>
+                  <Home />
+                </AdminRoute>
+              }
+            >
+         
+              <Route
+                path="/admin/"
+                element={
+                  <AdminRoute>
+                    <Relatorio  />
+                  </AdminRoute>
+                }
+              />
+           
+                    {/* apenas admin pode cadastrar */}
+<Route
+  path="cadastro"
+  element={
+    <AdminRoute>
+      <CadastroUsuario />
+    </AdminRoute>
+  }
+/>  
+
+<Route
+  path="edit/:id"
+  element={
+    <AdminRoute>
+      <CadastroUsuario />
+    </AdminRoute>
+  }
+/> 
             </Route>
 
           </Routes>

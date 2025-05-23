@@ -14,36 +14,44 @@ const CadastroUsuario = () => {
   const [isShow, setIsShow] = useState(false);
   const [isCon, setIsCon] = useState(false);
 
-
   // const navigate = useNavigate();
   const navigate = useNavigate();
   const { id } = useParams();
-
+  const [role,setRole]=useState("user")
+  
+  // traz o  usuario logado
+  const userRole = localStorage.getItem("role");
   const [values, setValues] = useState({
-    nome: "",
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
+    role:"user"
   });
   useEffect(() => {
     //  banco de dados
 
     try {
-      api.get(`/user/` + id,{
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-        
-      ).then((res) => {
-        setValues(res.data);
-        toast.error(res.data.message);
-      });
-    } catch (err) {
+    if(id){
+      api
+        .get(`/user/` + id, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((res) => {
+          setValues({
+            ...res.data,
+            confirmPassword: res.data.password,
+          });
+           setRole(res.data.role);
+          toast.error(res.data.message);
+        });
+    }} catch (err) {
       console.error(err);
       alert("Erro tente Novemante! Banco não conectado");
     }
-  }, []);
+  }, [id]);
 
   async function SaveEdit(e) {
     try {
@@ -54,23 +62,28 @@ const CadastroUsuario = () => {
         toast.error("Senha e Confirme a senha devem ser iguais");
         return false;
       }
-
+    const payload = {
+      name: values.name,
+      email: values.email,
+      password: values.password,
+      role: userRole === "admin" ? role : "user", // só admin define o role
+    };
+    
       const response =
         id > 0
-          ? await api.put(`/user/` + id, values,{
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          })
-          : await api.post("/user", values);
+          ? await api.put(`/user/` + id, payload, {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            })
+          : await api.post("/user", payload);
 
       if (response.data) {
-        id> 0 ? navigate("/processo"):
-        navigate("/")
-        toast.success(response.data.message)
+        id > 0 ? navigate("/admin") : navigate("/");
+        toast.success(response.data.message);
         console.log(response.data);
       }
-    } catch (err) {
+   } catch (err) {
       console.error(err);
       toast.error(err.response.data.message);
     }
@@ -87,11 +100,11 @@ const CadastroUsuario = () => {
             <input
               className="form-control  text-secondary"
               type="text"
-           required
+              required
               placeholder="Nome"
               autoComplete="nome"
-              value={values.nome}
-              onChange={(e) => setValues({ ...values, nome: e.target.value })}
+              value={values.name}
+              onChange={(e) => setValues({ ...values, name: e.target.value })}
             />
             <FaUser className="icon text-secondary" />
           </div>
@@ -114,7 +127,7 @@ const CadastroUsuario = () => {
               type={isShow ? "text" : "password"}
               placeholder="Crie sua senha"
               minLength={3}
-       required
+              required
               onChange={(e) =>
                 setValues({ ...values, password: e.target.value })
               }
@@ -142,11 +155,9 @@ const CadastroUsuario = () => {
               className="form-control text-secondary"
               type={isCon ? "text" : "password"}
               placeholder="Confirme sua senha"
-         
               onChange={(e) =>
                 setValues({ ...values, confirmPassword: e.target.value })
               }
-         
             />
 
             {isCon ? (
@@ -165,25 +176,36 @@ const CadastroUsuario = () => {
               />
             )}
           </div>
+{/* admin */}
+       {userRole === "admin" && (
+            <div className="input-senha">
+              <select
+                className="form-control text-secondary"
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+              >
+                <option value="user">Usuário</option>
+                <option value="admin">Administrador</option>
+              </select>
+            </div>
+          )}
 
-          <Button text=  {id ? "Editar" : "Cadastrar"} 
-
-theme={"roxo"}
-type="submit"
-
-         
-        />
-          
-
-        
-
-      
 
 
-{id ? "" :  <Link className="text-esqueceu" to="/">
-            Faça Login aqui
-          </Link>}
-         
+
+          <Button
+            text={id ? "Editar" : "Cadastrar"}
+            theme={"roxo"}
+            type="submit"
+          />
+
+          {id ? (
+            ""
+          ) : (
+            <Link className="text-esqueceu" to="/">
+              Faça Login aqui
+            </Link>
+          )}
         </div>
       </form>
     </section>

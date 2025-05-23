@@ -19,26 +19,28 @@ export default function Login() {
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
 
-
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       e.preventDefault();
-      await login(email, password);
-   navigate("/")
-   
-  } catch (err) {
-    toast.error(err.response.data.message)
+      const userData = await login(email, password);
+      if (userData.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
+    } catch (err) {
+      toast.error(err.response.data.message);
       console.error("Login error:", err);
     }
   };
   return (
     <>
-    <Head title={"Login"}/>
+      <Head title={"Login"} />
       <section className="body">
         <form onSubmit={handleLogin} className="form">
           <div className="formulario-login">
-            <Title text="Login" theme="h1"/>
+            <Title text="Login" theme="h1" />
 
             <div className="input-senha">
               <input
@@ -84,13 +86,7 @@ export default function Login() {
               Esqueceu sua senha?
             </Link>
 
-        
-
-         <Button text={"Login"}
-      type="submit"
-         theme={"roxo"}
-          
-         />
+            <Button text={"Login"} type="submit" theme={"roxo"} />
 
             <Link className="text-esqueceu" to="/cadastro">
               Crie Sua Conta
@@ -98,8 +94,6 @@ export default function Login() {
           </div>
         </form>
       </section>
-    
-
     </>
   );
 }

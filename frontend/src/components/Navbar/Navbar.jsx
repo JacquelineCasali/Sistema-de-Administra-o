@@ -6,12 +6,11 @@ import { Link } from "react-router-dom";
 import { FiChevronDown } from "react-icons/fi";
 import { FaBars } from "react-icons/fa";
 
-
 export default function Navbar() {
-  const { user,logout } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
   const [menuAberto, setMenuAberto] = useState(false);
   const [dropdown, setDropdown] = useState(null); // Controla dropdowns abertos
- 
+
   // Fecha dropdown ao clicar fora
   useEffect(() => {
     const fecharDropdown = (e) => {
@@ -21,107 +20,125 @@ export default function Navbar() {
     return () => document.removeEventListener("click", fecharDropdown);
   }, []);
 
-
-
-  
   return (
     <header className="header">
       <nav className="nav-bar">
-        <h2
-        className="nav-h2"> Sistema Administrativo</h2>
-   
+        <h2 className="nav-h2"> Sistema Administrativo</h2>
 
         <ul className={`nav-links ${menuAberto ? "nav-active" : ""}`}>
-
-   
-          <li className="dropdown">
-            <Link to="area" className="link">
-              Área
+          {/* Menu geral  */}
+          {/* <li>
+            <Link to="/" className="link">
+              Home
             </Link>
-            <FiChevronDown
-              onClick={() => setDropdown(dropdown === "areas" ? null : "areas")}
-              size={26}
-              cursor={"pointer"}
-              color="#4F372F"
-            />
-           
-           <ul className={`dropdown-content ${dropdown === 'areas' ? 'open' : ''}`}>
+          </li> */}
+
+          <li>
+            <Link to="/" className="link">
+              Extrato
+            </Link>
+          </li>
+
+          <li>
+            <Link to="/carteira" className="link">
+              Carteira
+            </Link>
+          </li>
+
+  <li className="dropdown">
+              <span  className="link"style={{color:"rgb(13, 110, 253)"}}>
+                Usuários
+              </span>
+              <FiChevronDown
+                onClick={() =>
+                  setDropdown(dropdown === "usuarios" ? null : "usuarios")
+                }
+                size={26}
+                cursor={"pointer"}
+                color="#4F372F"
+              />
+              <ul
+                className={`dropdown-content ${
+                  dropdown === "usuarios" ? "open" : ""
+                }`}
+              >
+               <li>
+
+
+
+                  <Link to={`edit/${user?.id}/`} className="link">
+                    Editar
+                  </Link>
+                          </li>
+
                 <li>
-                  <Link to="/cadastrar/area" className="link">
-                    Cadastro
+                  <Link to="/relatorio" className="link">
+                    Relatório
                   </Link>
                 </li>
               </ul>
-           
-          </li>
+            </li>
 
-          <li className="dropdown">
-            <Link to="/" className="link">
-              Processo
-            </Link>
-            <FiChevronDown
-              onClick={() =>
-                setDropdown(dropdown === "processos" ? null : "processos")
-              }
-              size={26}
-              cursor={"pointer"}
-              color="#4F372F"
-            />
-           
+
+
+
+            
+          {user?.role === "admin" && (
+            <li className="dropdown">
+                 <span  className="link"style={{color:"rgb(13, 110, 253)"}}>
+                Usuários
+              </span>
+              <FiChevronDown
+                onClick={() =>
+                  setDropdown(dropdown === "usuarios" ? null : "usuarios")
+                }
+                size={26}
+                cursor={"pointer"}
+                color="#4F372F"
+              />
               <ul
                 className={`dropdown-content ${
-                  dropdown === "processos" ? "open" : ""
+                  dropdown === "usuarios" ? "open" : ""
                 }`}
               >
                 <li>
-                  <Link to="/cadastrar/processo" className="link">
-                    Cadastro
+                  <Link to="/cadastro" className="link">
+                    Cadastrar
                   </Link>
                 </li>
-              </ul>
-          
-          </li>
+   <li>
+                  <Link to={`edit/${user?.id}/`} className="link">
+                    Editar
+                  </Link>
+                </li>
 
-          <li className="dropdown">
-            <Link to="subprocesso" className="link">
-              Subprocesso
-            </Link>
-
-            <FiChevronDown
-             onClick={() => setDropdown(dropdown === 'subprocessos' ? null : 'subprocessos')}
-              size={26}
-              cursor={"pointer"}
-              color="#4F372F"
-            />
-        
-               <ul className={`dropdown-content ${dropdown === 'subprocessos' ? 'open' : ''}`}>
                 <li>
-                  <Link to="/cadastrar/subprocesso" className="link">
-                    Cadastro
+                  <Link to="/relatorio" className="link">
+                    Relatório
                   </Link>
                 </li>
               </ul>
-         
-          </li>
-          
+            </li>
+          )}
+
+       
         </ul>
-    {/* botao responsivo */}
-   
 
+        <FaBars
+          size={20}
+          style={{ color: "black" }}
+          className="menu-btn"
+          onClick={() => setMenuAberto(!menuAberto)}
+        />
+        <div>
+          <strong>{user?.name}</strong>
 
-    
-    <FaBars size={20} style={{ color: "black"}}
-        className="menu-btn" onClick={() => setMenuAberto(!menuAberto)} />
-<div>
-<strong>{user?.nome}</strong>
-  <button className="logout" style={{ width: "80px" }} onClick={logout}>
-  Sair
-</button>
-</div>
-
-
-      
+          <strong style={{ marginLeft: "10px" }}>{user?.role}</strong>
+          <button className="logout" style={{ width: "80px" }} onClick={logout}>
+            Sair
+          </button>
+        </div>
       </nav>
-     </header>
+    </header>
   );
 }

@@ -7,15 +7,21 @@ create:async (req, res) => {
    
   try {
     
-      const { nome, email,password } = req.body;
-      const users = await user.findOne({ where: { email },where:{nome} });
+      const { name, email,password,role  } = req.body;
+         // Se não houver usuário logado (rota pública), sempre cria como "user"
+     const isAdminRequest = req.user?.role === "admin";
+
+      const roleToSave = isAdminRequest ? role : "user";
+
+
+      const users = await user.findOne({ where: { email },where:{name} });
       if (users) {
-        return res.status(422).json({message: `Email ${email} ou nome ${nome} já cadastrado`});
+        return res.status(422).json({message: `Email ${email} ou nome ${name} já cadastrado`});
       }
       const salt = await bcrypt.genSalt(10);
       const hashedPassword=await bcrypt.hash(password,salt);
-      const novoProcesso = await user.create({ nome, email,password:hashedPassword });
-      res.status(201).json(novoProcesso);
+      const novoUsuario = await user.create({ name, email,password:hashedPassword,role:roleToSave });
+      res.status(201).json(novoUsuario);
     } catch (error) {
       console.error(error);
       res.status(500).json({ error:error.errors[0].message });
@@ -25,7 +31,7 @@ create:async (req, res) => {
 listar: async (req, res) => {
     try {
       const users = await user.findAll({
-        order: [["nome", "ASC"]],
+        order: [["name", "ASC"]],
       });
       res.json(users);
     } catch (error) {
@@ -51,7 +57,7 @@ listar: async (req, res) => {
   async update(req, res) {
     try {
       const { id } = req.params;
-      const { nome,email, password } = req.body;
+      const { name,email, password,role } = req.body;
       const users = await user.findOne({ where: { id } });
       if (!users) {
         return res.status(404).json({
@@ -61,7 +67,7 @@ listar: async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword=await bcrypt.hash(password,salt)
         await user.update(
-          { nome,email, password:hashedPassword },
+          { name,email, password:hashedPassword,role },
           { where: { id } }
         );
         return res.status(200).json({

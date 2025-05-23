@@ -1,8 +1,10 @@
 'use strict';
 const sequelize = require("../config/database");
 const user=require("./user")
+const transaction=require("./transaction")
 
-
+user.hasMany(transaction, { foreignKey: "userId" });
+transaction.belongsTo(user, { foreignKey: "userId" });
 
 const syncDatabase = async () => {
   try {
@@ -14,5 +16,5 @@ await sequelize.sync({ alter: false });
   }
 };
 
-module.exports = { sequelize, syncDatabase,user
+module.exports = { sequelize, syncDatabase,user,transaction
    };

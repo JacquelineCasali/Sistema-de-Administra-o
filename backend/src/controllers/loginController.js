@@ -17,11 +17,10 @@ const loginController = {
       return res.status(401).json({ message: `Email ou senha não confere ` });
     }
     //resgatando o id do usuario
-    const { id } = users;
+    const { id, role,name } = users;
     //expiresIn:300 expira em 5 minutos
     const token = jwt.sign(
-      { id 
-      },
+      { userId: id, role },
 
       process.env.APP_SECRET,
       { expiresIn: "1d" }
@@ -35,7 +34,9 @@ const loginController = {
       users: {
         id,
         email,
-        nome:users.nome
+        name,
+        // name: users.name,
+        role
       },
       token,
       message: "Logado com sucesso",
@@ -43,34 +44,25 @@ const loginController = {
   },
 
   //cadastrar
-    async senha(req, res) {
-   
-   
+  async senha(req, res) {
     const { email, password } = req.body;
     const users = await user.findOne({ where: { email } });
-   
-   
-    if (!users) {
-      return res.status(422).json({message: `Email ${email} não encontrado` });
-    }else{
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword=await bcrypt.hash(password,salt)
-      await user.update(
-        { password: hashedPassword },
-        { where: { email } }
-      )
-    }
-    const{id}=users;
-     return res.json({
-       users:{
-        id, email
-       },
-       message:'Atualizada com sucesso'
-     }
-      
-     );
-  
-  },
 
+    if (!users) {
+      return res.status(422).json({ message: `Email ${email} não encontrado` });
+    } else {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
+      await user.update({ password: hashedPassword }, { where: { email } });
+    }
+    const { id } = users;
+    return res.json({
+      users: {
+        id,
+        email,
+      },
+      message: "Atualizada com sucesso",
+    });
+  },
 };
 module.exports = loginController;
