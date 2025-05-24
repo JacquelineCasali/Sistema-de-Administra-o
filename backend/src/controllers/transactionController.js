@@ -92,7 +92,11 @@ const transactionController = {
     });
   const totalPoints = result?.totalPoints ? parseFloat(result.totalPoints) : 0;
   const totalValue = result?.totalValue ? parseFloat(result.totalValue) : 0;
-   res.json({ totalPoints, totalValue});
+   res.json({
+    balance:
+totalPoints, totalValue
+    
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: 'Erro ao buscar saldo' });

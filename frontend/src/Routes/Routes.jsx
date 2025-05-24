@@ -8,8 +8,9 @@ import Home from "../page/Home";
 import EditarSenha from "../components/User/EditarSenha";
 import AdminRoute from "./AdminRoute";
 import Extrato from "../page/User/Extrato";
-import Wallet from "../page/User/Wallet";
+
 import Relatorio from "../page/Admin/Relatorio";
+import WalletPage from "../page/User/WalletPage";
 
 const AppRoutes = () => {
 
@@ -52,7 +53,7 @@ const AppRoutes = () => {
                 path="/"
                 element={
                   <PrivateRoute>
-                    <Wallet   />
+                    <WalletPage   />
                   </PrivateRoute>
                 }
               />
