@@ -7,10 +7,11 @@ import CadastroUsuario from "../page/CadastroUsuario";
 import Home from "../page/Home";
 import EditarSenha from "../components/User/EditarSenha";
 import AdminRoute from "./AdminRoute";
-import Extrato from "../page/User/Extrato";
+
 
 import Relatorio from "../page/Admin/Relatorio";
 import WalletPage from "../page/User/WalletPage";
+import Extract from "../page/User/ExtractPage";
 
 const AppRoutes = () => {
 
@@ -61,7 +62,7 @@ const AppRoutes = () => {
                 path="/extract"
                 element={
                   <PrivateRoute>
-                    <Extrato  />
+                    <Extract  />
                   </PrivateRoute>
                 }
               />

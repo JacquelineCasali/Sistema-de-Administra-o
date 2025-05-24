@@ -17,7 +17,7 @@ const loginController = {
       return res.status(401).json({ message: `Email ou senha não confere ` });
     }
     //resgatando o id do usuario
-    const { id, role,name } = users;
+    const { id, role,name,cpf } = users;
     //expiresIn:300 expira em 5 minutos
     const token = jwt.sign(
       { userId: id, role: role  },
@@ -35,6 +35,7 @@ const loginController = {
         id,
         email,
         name,
+        cpf:users.cpf,
         // name: users.name,
         role
       },

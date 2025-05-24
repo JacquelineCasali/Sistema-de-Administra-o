@@ -129,6 +129,7 @@ export default function Navbar() {
             Sair
           </button>
         </div>
+        
       </nav>
     </header>
   );
