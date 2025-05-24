@@ -3,6 +3,7 @@ const fs = require("fs");
 const db = require("../db/models/transaction");
 const path = require("path");
 const user  = require("../db/models/user");
+const { excelDateToJSDate } = require("../util/excelDateToJSDate");
 const uploadController = {
 
  async upload(req, res) {
@@ -33,7 +34,7 @@ const uploadController = {
         continue;
       }
     const description = linha["Descrição da transação"];
-        const transactionDate = new Date(linha["Data da transação"]);
+        const transactionDate = excelDateToJSDate(linha["Data da transação"]);
         const points = parseInt(String(linha["Valor em pontos"]).replace(/[^\d]/g, ""));
         const value = parseFloat(String(linha["Valor"]).replace(".", "").replace(",", "."));
         const status = linha["Status"].toLowerCase();

@@ -81,7 +81,7 @@ const AppRoutes = () => {
             >
          
               <Route
-                path="/admin/"
+                path=""
                 element={
                   <AdminRoute>
                     <Relatorio  />

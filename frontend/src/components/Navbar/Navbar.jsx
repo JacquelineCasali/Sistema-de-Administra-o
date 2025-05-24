@@ -69,7 +69,7 @@ export default function Navbar() {
               </li>
 
               <li>
-                <Link to="/relatorio" className="link">
+                <Link to="/admin" className="link">
                   Relatório
                 </Link>
               </li>
@@ -106,7 +106,7 @@ export default function Navbar() {
                 </li>
 
                 <li>
-                  <Link to="/relatorio" className="link">
+                  <Link to="/admin" className="link">
                     Relatório
                   </Link>
                 </li>

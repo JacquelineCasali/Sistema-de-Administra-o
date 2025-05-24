@@ -16,10 +16,11 @@
 }
 
 .amarelo {
-  color: var(--roxo);
-  border: 2px solid var(--amarelo);
-  background: var(--amarelo);
-  width: 130px;
+  color: var(--branco);
+  border: 2px solid var(--primary);
+  background: var(--primary);
+  width: 60px;
+  font-size: 12px;
 }
 
 .roxo {

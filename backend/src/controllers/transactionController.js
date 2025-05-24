@@ -93,9 +93,9 @@ const transactionController = {
   const totalPoints = result?.totalPoints ? parseFloat(result.totalPoints) : 0;
   const totalValue = result?.totalValue ? parseFloat(result.totalValue) : 0;
    res.json({
-    balance:
+    balance:{
 totalPoints, totalValue
-    
+    }
     });
   } catch (error) {
     console.error(error);
