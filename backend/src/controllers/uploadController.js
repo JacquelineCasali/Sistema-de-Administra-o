@@ -2,6 +2,7 @@ const XLSX = require("xlsx");
 const fs = require("fs");
 const db = require("../db/models/transaction");
 const path = require("path");
+const user  = require("../db/models/user");
 const uploadController = {
 
  async upload(req, res) {
@@ -12,30 +13,50 @@ const uploadController = {
       const sheet = workbook.Sheets[sheetName];
 
       const dados = XLSX.utils.sheet_to_json(sheet);
-
-      if (!dados.length) {
+    if (!dados.length) {
+        fs.unlinkSync(filePath);
         return res.status(400).json({ message: "Planilha vazia!" });
       }
+
+  
+     
 
       const transacoes = [];
 
       for (const linha of dados) {
-        const { "CPF":cpf, "Descrição da transação": description, "Data da transação": transactionDate, "Valor em pontos": points, "Valor":value, "Status":status } = linha;
 
-        if (!cpf || !description || !transactionDate || !points || !value || !status) {
+    const cpf = String(linha['CPF']).replace(/[^\d]+/g, '');
+      const users = await user.findOne({ where: { cpf } });
+      
+      if (!users) {
+        console.log(`Usuário com CPF ${cpf} não encontrado`);
+        continue;
+      }
+    const description = linha["Descrição da transação"];
+        const transactionDate = new Date(linha["Data da transação"]);
+        const points = parseInt(String(linha["Valor em pontos"]).replace(/[^\d]/g, ""));
+        const value = parseFloat(String(linha["Valor"]).replace(".", "").replace(",", "."));
+        const status = linha["Status"].toLowerCase();
+       
+        if (!description || !transactionDate || !points || !value || !status) {
           return res.status(400).json({ message: "Planilha possui campos faltando." });
+        
         }
 
         transacoes.push({
-          cpf: cpf.toString().replace(/\D/g, ""), // limpa CPF
+      userId: users.id,
+          
           description,
-          transactionDate: new Date(transactionDate),
-          points: parseInt(points),
-          value: parseFloat(value.toString().replace(".", "").replace(",", ".")),
-          status: status
+          transactionDate,
+          points,
+          value ,
+          status
         });
       }
-
+   if (!transacoes.length) {
+        fs.unlinkSync(filePath);
+        return res.status(400).json({ message: "Nenhuma transação válida para importar." });
+      }
       // Inserir no banco
       await db.bulkCreate(transacoes);
 

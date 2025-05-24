@@ -34,58 +34,51 @@ export default function Navbar() {
           </li> */}
 
           <li>
-            <Link to="/" className="link">
+            <Link to="/extract" className="link">
               Extrato
             </Link>
           </li>
 
           <li>
-            <Link to="/carteira" className="link">
+            <Link to="/" className="link">
               Carteira
             </Link>
           </li>
 
-  <li className="dropdown">
-              <span  className="link"style={{color:"rgb(13, 110, 253)"}}>
-                Usuários
-              </span>
-              <FiChevronDown
-                onClick={() =>
-                  setDropdown(dropdown === "usuarios" ? null : "usuarios")
-                }
-                size={26}
-                cursor={"pointer"}
-                color="#4F372F"
-              />
-              <ul
-                className={`dropdown-content ${
-                  dropdown === "usuarios" ? "open" : ""
-                }`}
-              >
-               <li>
+          <li className="dropdown">
+            <span className="link" style={{ color: "rgb(13, 110, 253)" }}>
+              Usuários
+            </span>
+            <FiChevronDown
+              onClick={() =>
+                setDropdown(dropdown === "usuarios" ? null : "usuarios")
+              }
+              size={26}
+              cursor={"pointer"}
+              color="#4F372F"
+            />
+            <ul
+              className={`dropdown-content ${
+                dropdown === "usuarios" ? "open" : ""
+              }`}
+            >
+              <li>
+                <Link to={`edit/${user?.id}/`} className="link">
+                  Editar
+                </Link>
+              </li>
 
+              <li>
+                <Link to="/relatorio" className="link">
+                  Relatório
+                </Link>
+              </li>
+            </ul>
+          </li>
 
-
-                  <Link to={`edit/${user?.id}/`} className="link">
-                    Editar
-                  </Link>
-                          </li>
-
-                <li>
-                  <Link to="/relatorio" className="link">
-                    Relatório
-                  </Link>
-                </li>
-              </ul>
-            </li>
-
-
-
-
-            
           {user?.role === "admin" && (
             <li className="dropdown">
-                 <span  className="link"style={{color:"rgb(13, 110, 253)"}}>
+              <span className="link" style={{ color: "rgb(13, 110, 253)" }}>
                 Usuários
               </span>
               <FiChevronDown
@@ -106,7 +99,7 @@ export default function Navbar() {
                     Cadastrar
                   </Link>
                 </li>
-   <li>
+                <li>
                   <Link to={`edit/${user?.id}/`} className="link">
                     Editar
                   </Link>
@@ -120,8 +113,6 @@ export default function Navbar() {
               </ul>
             </li>
           )}
-
-       
         </ul>
 
         <FaBars

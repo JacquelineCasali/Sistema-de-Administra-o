@@ -8,7 +8,7 @@ import Home from "../page/Home";
 import EditarSenha from "../components/User/EditarSenha";
 import AdminRoute from "./AdminRoute";
 import Extrato from "../page/User/Extrato";
-import Carteira from "../page/User/Carteira";
+import Wallet from "../page/User/Wallet";
 import Relatorio from "../page/Admin/Relatorio";
 
 const AppRoutes = () => {
@@ -48,23 +48,23 @@ const AppRoutes = () => {
                 </PrivateRoute>
               }
             >
-         
-              <Route
+                  <Route
                 path="/"
+                element={
+                  <PrivateRoute>
+                    <Wallet   />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/extract"
                 element={
                   <PrivateRoute>
                     <Extrato  />
                   </PrivateRoute>
                 }
               />
-                    <Route
-                path="carteira"
-                element={
-                  <PrivateRoute>
-                    <Carteira   />
-                  </PrivateRoute>
-                }
-              />
+           
             </Route>
 
 

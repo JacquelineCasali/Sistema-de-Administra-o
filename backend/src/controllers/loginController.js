@@ -20,7 +20,7 @@ const loginController = {
     const { id, role,name } = users;
     //expiresIn:300 expira em 5 minutos
     const token = jwt.sign(
-      { userId: id, role },
+      { userId: id, role: role  },
 
       process.env.APP_SECRET,
       { expiresIn: "1d" }

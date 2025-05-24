@@ -1,143 +1,98 @@
 
-const { user } = require("../db/models");
+const  user  = require("../db/models/user");
 const transaction = require("../db/models/transaction");
+const sequelize = require("../db/config/database");
+const { Op } = require("sequelize");
+
+// Função para normalizar CPF
+function normalizeCPF(cpf) {
+  return String(cpf).replace(/[^\d]+/g, '');
+}
+
 const transactionController = {
-  async create(req, res) {
-    try {
-      const { cpf, description, transactionDate, points, value, status } = req.body;
+    async relatorioFiltros (req, res) {
+ try {
+    const { cpf, description, startDate, endDate, minValue, maxValue, status } = req.query;
+    const where = {};
 
-      const usuario = await user.findOne({
-        where: { cpf: cpf.toString().replace(/\D/g, "") },
-      });
-
-      if (!usuario) {
-        return res.status(400).json({ message: `CPF ${cpf} não encontrado no sistema.` });
-      }
-
-      const transtions = await transaction.create({
-        userId: usuario.id,
-        description,
-        transactionDate: new Date(transactionDate),
-        points: parseInt(points),
-        value: parseFloat(value.toString().replace(".", "").replace(",", ".")),
-        status,
-      });
-
-      return res.status(201).json(transtions);
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({ error: error.message });
+    if (cpf) {
+      const users = await user.findOne({ where: { cpf: normalizeCPF(cpf) } });
+      if (!users) return res.json([]); // ou return erro
+      where.userId = users.id;
     }
-  },
-
-   async admin (req, res) {
-     const {
-    cpf,
-    description,
-    dataInicio,
-    dataFim,
-    status,
-    valorMin,
-    valorMax
-  } = req.query;
-try {
-    const filtrosTransacao = {};
-    const filtrosUsuario = {};
-
-    // Filtros por CPF
-    if (cpf) filtrosUsuario.cpf = cpf;
-
-    // Filtro por descrição da transação
     if (description) {
-      filtrosTransacao.description = { [Op.like]: `%${description}%` };
+      where.description = { [Op.like]: `%${description}%` };
     }
-
-    // Filtro por status da transação
+    if (startDate || endDate) {
+      where.transactionDate = {};
+      if (startDate) where.transactionDate[Op.gte] = new Date(startDate);
+      if (endDate) where.transactionDate[Op.lte] = new Date(endDate);
+    }
+    if (minValue || maxValue) {
+      where.value = {};
+      if (minValue) where.value[Op.gte] = minValue;
+      if (maxValue) where.value[Op.lte] = maxValue;
+    }
     if (status) {
-      filtrosTransacao.status = status;
+      where.status = status;
     }
 
-    // Filtros por data
-    if (dataInicio || dataFim) {
-      filtrosTransacao.transactionDate = {};
-      if (dataInicio) filtrosTransacao.transactionDate[Op.gte] = new Date(dataInicio);
-      if (dataFim) filtrosTransacao.transactionDate[Op.lte] = new Date(dataFim);
-    }
-
-    // Filtros por valor
-    if (valorMin || valorMax) {
-      filtrosTransacao.value = {};
-      if (valorMin) filtrosTransacao.value[Op.gte] = parseFloat(valorMin);
-      if (valorMax) filtrosTransacao.value[Op.lte] = parseFloat(valorMax);
-    }
-
-    const transacoes = await transaction.findAll({
-      where: filtrosTransacao,
-      include: [{
-        model: user,
-        where: filtrosUsuario,
-        attributes: ['id', 'name', 'cpf'],
-      }],
-      order: [['transactionDate', 'DESC']],
-    });
-
-    return res.status(200).json({
-      sucesso: true,
-      total: transacoes.length,
-      transacoes,
-    });
+    const transactions = await transaction.findAll({  where });
+    res.json(transactions);
   } catch (error) {
-    console.error('Erro ao gerar relatório administrativo:', error);
-    return res.status(500).json({
-      sucesso: false,
-      mensagem: 'Ocorreu um erro ao buscar as transações. Tente novamente mais tarde.',
-    });
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
-},
-   async extract (req, res) {
- const { dataInicio, dataFim, status } = req.query;
-  const userId = req.userId;
 
-  try {
+    },
+//extrato
+  async extract (req, res) {
+    try {
+    const userId = req.userId;
+    const { status, startDate, endDate } = req.query;
+
     const where = { userId };
 
     if (status) where.status = status;
-    if (dataInicio || dataFim) {
+
+    if (startDate || endDate) {
       where.transactionDate = {};
-      if (dataInicio) where.transactionDate[Op.gte] = new Date(dataInicio);
-      if (dataFim) where.transactionDate[Op.lte] = new Date(dataFim);
+      if (startDate) where.transactionDate[Op.gte] = new Date(startDate);
+      if (endDate) where.transactionDate[Op.lte] = new Date(endDate);
     }
 
-    const transactions = await transaction.findAll({
-      where,
-      order: [['transactionDate', 'DESC']],
-    });
-
-    return res.json(transactions);
+    const transactions = await transaction.findAll({ where, order: [["transactionDate", "DESC"]] });
+    res.json(transactions);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'Erro ao buscar extrato' });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 
-   },
-    async status (req, res) {
-      const userId = req.userId;
+  },
 
+
+
+
+
+   //saldo 
+    async wallet (req, res) {
+ 
   try {
-    const result = await transaction.findAll({
+      console.log("User ID:", req.userId); // 👉 Verifica se está vindo corretamente
+    const result = await transaction.findOne({
       where: {
-        userId,
+        userId: req.userId,
         status: 'aprovado',
       },
       attributes: [
-        [sequelize.fn('SUM', sequelize.col('points')), 'totalPoints']
+        [sequelize.fn('SUM', sequelize.col('points')), 'totalPoints'],
+         [sequelize.fn('SUM', sequelize.col('value')), 'totalValue']
       ],
       raw: true,
     });
-
-    const saldo = result[0].totalPoints || 0;
-
-    return res.json({ saldo: parseInt(saldo) });
+  const totalPoints = result?.totalPoints ? parseFloat(result.totalPoints) : 0;
+  const totalValue = result?.totalValue ? parseFloat(result.totalValue) : 0;
+   res.json({ totalPoints, totalValue});
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: 'Erro ao buscar saldo' });

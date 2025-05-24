@@ -19,13 +19,13 @@ router.put("/user/:id", ValidateToken,userController.update);
 router.delete("/user/:id",ValidateToken, userController.delete);
 router.post("/upload",ValidateToken,IsAdmin,upload.single('file'), uploadController.upload);
 //transação manual 
-router.post("/transacoes",ValidateToken,IsAdmin, transactionController.create);
+// router.post("/transacoes",ValidateToken,IsAdmin, transactionController.create);
 //filtro
-router.get("/admin/transactions",ValidateToken, IsAdmin,transactionController.admin);
-//extrato
+ router.get("/admin/transactions",ValidateToken, IsAdmin,transactionController.relatorioFiltros);
+// //extrato
 router.get('/transactions', ValidateToken, transactionController.extract);
-//status
-router.get('/status', ValidateToken, transactionController.status);
+//saldo
+router.get('/wallet', ValidateToken, transactionController.wallet);
 
 
 

@@ -4,7 +4,9 @@ const sequelize = require("../config/database");
 
 const transaction = sequelize.define("Transaction", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  // cpf: { type: DataTypes.STRING, allowNull: false,
+  
+  
+  // cpf: { type: DataTypes.STRING, allowNull: false, unique:true,
   //   validate:{
   //     notEmpty:{
   //       msg:"Campo cpf não pode ser vazio"
@@ -48,12 +50,16 @@ const transaction = sequelize.define("Transaction", {
    
     }
   } ,
-    status: DataTypes.ENUM('Aprovado', 'Reprovado', 'Em avaliação')
+     status: { type: DataTypes.ENUM("aprovado", "reprovado", "avaliando"), allowNull: false },
+     userId: {
+  type: DataTypes.INTEGER,
+  allowNull: false,
+}
    
 
 },
 {
-  timeStamp:true,
+ timestamps: true
 }
 );
 
