@@ -25,8 +25,7 @@ export default function Extract() {
       .catch((err) => {
         toast.error(err.response.data.message);
         console.error("Error:", err);
-        // alert("Erro ao carregar transações");
-        // setLoading(false);
+    
       });
   }, []);
 

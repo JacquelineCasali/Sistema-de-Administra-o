@@ -10,6 +10,29 @@ function normalizeCPF(cpf) {
 }
 
 const transactionController = {
+//criar transação 
+async create(req, res) {
+  try {
+    const { description, points, value, status } = req.body;
+
+    const transaction = await transaction.create({
+      userId: req.userId,
+      description,
+      points,
+      value,
+      status: status || 'avaliando',
+    });
+
+    res.status(201).json(transaction);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erro ao criar transação' });
+  }
+},
+
+
+
+
     async relatorioFiltros (req, res) {
  try {
     const { cpf, description, startDate, endDate, minValue, maxValue, status } = req.query;
@@ -78,7 +101,7 @@ const transactionController = {
     async wallet (req, res) {
  
   try {
-      console.log("User ID:", req.userId); // 👉 Verifica se está vindo corretamente
+      console.log("User ID:", req.userId); 
     const result = await transaction.findOne({
       where: {
         userId: req.userId,

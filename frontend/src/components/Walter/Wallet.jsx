@@ -22,10 +22,13 @@ export default function Wallet() {
         })
 
         .then((response) => {
-          setBalance(response.data.balance);
-          setTotalValue(response.data.totalValue);
+       
+          setBalance(response.data.balance.totalPoints);
+          setTotalValue(response.data.balance.totalValue);
           setLoading(false);
+          
         });
+        
     } catch (err) {
       toast.error(err.response.data.message);
       console.error("Login error:", err);
@@ -44,7 +47,7 @@ export default function Wallet() {
         <p className="balance-value">{balance}</p>
 
         <strong>Saldo em Valor:</strong>
-        <p className="balance-value">R$: {totalValue.toFixed(2)}</p>
+        <p className="balance-value">R$: {totalValue}</p>
       </div>
     </div>
   );

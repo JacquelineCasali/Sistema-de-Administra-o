@@ -8,7 +8,7 @@ import Title from "../Title/Tlite";
 import { formatDate } from "../../hooks/formatDate";
 import { toast } from "react-toastify";
 import Button from "../Button/Button";
-
+import Search from '../Search/Search';
 export default function AdminReport() {
   const [transactions, setTransactions] = useState([]);
   const [status, setStatus] = useState("");
@@ -17,7 +17,7 @@ export default function AdminReport() {
   const [loading, setLoading] = useState(false);
   const { user } = useContext(AuthContext);
   const [file, setFile] = useState(null);
-
+const [busca, setBusca] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -66,6 +66,13 @@ export default function AdminReport() {
   useEffect(() => {
     fetchData();
   }, [status, startDate, endDate]);
+  //corventendo para miniscula
+  const searchLowerCase = busca.toLowerCase();
+const dados = transactions.filter(
+  (item) =>
+    (user?.cpf ?? "").toLowerCase().includes(searchLowerCase) ||
+       (item.description).toLowerCase().includes(searchLowerCase)
+);
 
   return (
     <div className="admin-report-container">
@@ -99,7 +106,10 @@ export default function AdminReport() {
           />
         </label>
 
-        {/* <button onClick={fetchData}>Filtrar</button> */}
+     <Search
+  busca={busca}
+  setBusca={setBusca}
+    />
       </div>
       <form onSubmit={handleSubmit}>
         <input
@@ -128,7 +138,7 @@ export default function AdminReport() {
             </tr>
           </thead>
           <tbody>
-            {transactions.map((item) => (
+            {dados.map((item) => (
               <tr key={item.id}>
                 <td>{formatCPF(user?.cpf)}</td>
                 <td>{item.description}</td>

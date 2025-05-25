@@ -27,6 +27,10 @@ export default function Navbar() {
 
         <ul className={`nav-links ${menuAberto ? "nav-active" : ""}`}>
           {/* Menu geral  */}
+           {user?.role !== "admin" && (
+          
+          <>
+      
           {/* <li>
             <Link to="/" className="link">
               Home
@@ -44,7 +48,13 @@ export default function Navbar() {
               Carteira
             </Link>
           </li>
-
+             </>
+           )}
+                <li>
+            <Link to="/admin" className="link">
+              Relatório
+            </Link>
+          </li> 
           <li className="dropdown">
             <span className="link" style={{ color: "rgb(13, 110, 253)" }}>
               Usuários
@@ -55,64 +65,29 @@ export default function Navbar() {
               }
               size={26}
               cursor={"pointer"}
-              color="#4F372F"
+              color="rgb(13, 110, 253)"
             />
             <ul
               className={`dropdown-content ${
                 dropdown === "usuarios" ? "open" : ""
               }`}
             >
+              {user?.role === "admin" && (
+                <li>
+                  <Link to="/cadastro" className="link">
+                    Cadastrar
+                  </Link>
+                </li>
+              )}
               <li>
                 <Link to={`edit/${user?.id}/`} className="link">
                   Editar
                 </Link>
               </li>
 
-              <li>
-                <Link to="/admin" className="link">
-                  Relatório
-                </Link>
-              </li>
+         
             </ul>
           </li>
-
-          {user?.role === "admin" && (
-            <li className="dropdown">
-              <span className="link" style={{ color: "rgb(13, 110, 253)" }}>
-                Usuários
-              </span>
-              <FiChevronDown
-                onClick={() =>
-                  setDropdown(dropdown === "usuarios" ? null : "usuarios")
-                }
-                size={26}
-                cursor={"pointer"}
-                color="#4F372F"
-              />
-              <ul
-                className={`dropdown-content ${
-                  dropdown === "usuarios" ? "open" : ""
-                }`}
-              >
-                <li>
-                  <Link to="/cadastro" className="link">
-                    Cadastrar
-                  </Link>
-                </li>
-                <li>
-                  <Link to={`edit/${user?.id}/`} className="link">
-                    Editar
-                  </Link>
-                </li>
-
-                <li>
-                  <Link to="/admin" className="link">
-                    Relatório
-                  </Link>
-                </li>
-              </ul>
-            </li>
-          )}
         </ul>
 
         <FaBars
@@ -129,7 +104,6 @@ export default function Navbar() {
             Sair
           </button>
         </div>
-        
       </nav>
     </header>
   );

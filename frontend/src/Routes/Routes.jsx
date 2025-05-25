@@ -12,13 +12,15 @@ import AdminRoute from "./AdminRoute";
 import Relatorio from "../page/Admin/Relatorio";
 import WalletPage from "../page/User/WalletPage";
 import Extract from "../page/User/ExtractPage";
+// import SistemaProvider from "../context/SistemaContext";
+
 
 const AppRoutes = () => {
 
 
   return (
     <AuthProvider>
-    
+
         <Router>
           <>
 
@@ -30,6 +32,8 @@ const AppRoutes = () => {
  <EditarSenha/>
     
            } />
+
+
             <Route  path="/cadastro" element={<CadastroUsuario />} />
   
             <Route
@@ -66,7 +70,7 @@ const AppRoutes = () => {
                   </PrivateRoute>
                 }
               />
-           
+         
             </Route>
 
 
@@ -99,20 +103,20 @@ const AppRoutes = () => {
   }
 />  
 
+
+            </Route>
 <Route
-  path="edit/:id"
+  path="admin/edit/:id"
   element={
     <AdminRoute>
       <CadastroUsuario />
     </AdminRoute>
   }
 /> 
-            </Route>
-
           </Routes>
           </>
         </Router>
-    
+  
     </AuthProvider>
   );
 };

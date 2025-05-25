@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {  useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { MdOutlineEmail, MdVisibility, MdVisibilityOff } from "react-icons/md";
@@ -9,12 +9,15 @@ import Title from "../components/Title/Tlite";
 import { Head } from "../components/Head/Head";
 import { toast } from "react-toastify";
 import Button from "../components/Button/Button";
+import { AuthContext } from "../context/AuthContext";
+// import { AuthContext } from "../context/AuthContext";
+ import Navbar from "../components/Navbar/Navbar";
 
 const CadastroUsuario = () => {
   const [isShow, setIsShow] = useState(false);
   const [isCon, setIsCon] = useState(false);
+const { user } = useContext(AuthContext);
 
-  // const navigate = useNavigate();
   const navigate = useNavigate();
   const { id } = useParams();
   const [role,setRole]=useState("user")
@@ -90,6 +93,8 @@ const CadastroUsuario = () => {
   }
 
   return (
+    <>
+    {(id||user?.role === "admin")&& <Navbar />}
     <section className="body">
       <Head title={"Cadastro Usuário"} />
       <form onSubmit={SaveEdit} className="form">
@@ -209,6 +214,7 @@ const CadastroUsuario = () => {
         </div>
       </form>
     </section>
+     </>
   );
 };
 

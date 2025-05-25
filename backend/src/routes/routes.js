@@ -21,7 +21,10 @@ router.post("/upload",ValidateToken,IsAdmin,upload.single('file'), uploadControl
 //transação manual 
 // router.post("/transacoes",ValidateToken,IsAdmin, transactionController.create);
 //filtro
- router.get("/admin/transactions",ValidateToken, IsAdmin,transactionController.relatorioFiltros);
+router.post('/transactions', ValidateToken, transactionController.create);
+
+
+router.get("/admin/transactions",ValidateToken, IsAdmin,transactionController.relatorioFiltros);
 // //extrato
 router.get('/transactions', ValidateToken, transactionController.extract);
 //saldo
