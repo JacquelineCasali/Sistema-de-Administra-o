@@ -4,6 +4,10 @@ Este projeto é uma aplicação permite que administradores gerenciem transaçõ
 ## Vídeo do Projeto 
 
 
+https://github.com/user-attachments/assets/804f41e7-5f31-4fc2-ae42-229681cfae38
+
+
+
 
 ## 🚀 Tecnologias Utilizadas
 
