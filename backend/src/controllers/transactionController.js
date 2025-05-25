@@ -60,8 +60,30 @@ async create(req, res) {
       where.status = status;
     }
 
-    const transactions = await transaction.findAll({  where });
-    res.json(transactions);
+    const transactions = await transaction.findAll({  where, 
+ include: [
+        {
+          model: user,
+          attributes: ['cpf', 'name', 'email'],
+        },
+      ],
+      order: [['transactionDate', 'DESC']],
+
+
+    });
+    const result = transactions.map(t => ({
+      id: t.id,
+      description: t.description,
+      transactionDate: t.transactionDate,
+      points: t.points,
+      value: t.value,
+      status: t.status,
+      cpf: t.User.cpf,
+      name: t.User.name,
+      email: t.User.email,
+    }));
+
+    res.json(result);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
