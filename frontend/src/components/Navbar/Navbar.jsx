@@ -50,11 +50,13 @@ export default function Navbar() {
           </li>
              </>
            )}
+             {user?.role === "admin" && (
           <li>
             <Link to="/admin" className="link">
               Relatorio
             </Link>
           </li>
+             )}
           <li className="dropdown">
             <span className="link" style={{ color: "rgb(13, 110, 253)" }}>
               Usuários
