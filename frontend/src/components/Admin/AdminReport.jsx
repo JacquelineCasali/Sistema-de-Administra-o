@@ -1,8 +1,8 @@
-import { useContext, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import api from "../../services/api";
 import Loading from "../../components/Loading/Loading";
 import "./AdminReport.css";
-import { AuthContext } from "../../context/AuthContext";
+
 import { formatCPF } from "../../hooks/formatCPF";
 import Title from "../Title/Tlite";
 import { formatDate } from "../../hooks/formatDate";
@@ -15,7 +15,7 @@ export default function AdminReport() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [loading, setLoading] = useState(false);
-  const { user } = useContext(AuthContext);
+
   const [file, setFile] = useState(null);
 const [busca, setBusca] = useState("");
   const handleSubmit = async (e) => {
@@ -70,8 +70,10 @@ const [busca, setBusca] = useState("");
   const searchLowerCase = busca.toLowerCase();
 const dados = transactions.filter(
   (item) =>
-    (user?.cpf ?? "").toLowerCase().includes(searchLowerCase) ||
-       (item.description).toLowerCase().includes(searchLowerCase)
+    (item?.cpf ?? "").toLowerCase().includes(searchLowerCase) ||
+       (item.description).toLowerCase().includes(searchLowerCase)||
+(item?.value ?? "").toLowerCase().includes(searchLowerCase)
+       
 );
 
   return (
@@ -140,11 +142,11 @@ const dados = transactions.filter(
           <tbody>
             {dados.map((item) => (
               <tr key={item.id}>
-                <td>{formatCPF(user?.cpf)}</td>
+                <td>{formatCPF(item?.cpf)}</td>
                 <td>{item.description}</td>
                 <td>{formatDate(item.transactionDate)}</td>
-                <td>{user?.name}</td>
-                <td>{user?.email}</td>
+                <td>{item?.name}</td>
+                <td>{item?.email}</td>
 
                 <td>{item.points}</td>
                 <td>R$ {Number(item.value).toFixed(2)}</td>

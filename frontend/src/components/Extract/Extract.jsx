@@ -13,14 +13,14 @@ export default function Extract() {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const { user } = useContext(AuthContext);
-   const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
   useEffect(() => {
     api
       .get("/transactions", {
-              params: { status, startDate, endDate },
+        params: { status, startDate, endDate },
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       })
       .then((response) => {
@@ -30,7 +30,6 @@ export default function Extract() {
       .catch((err) => {
         toast.error(err.response.data.message);
         console.error("Error:", err);
-    
       });
   }, [status, startDate, endDate]);
 
@@ -39,7 +38,7 @@ export default function Extract() {
   return (
     <div className="extract-container">
       <Title text="Extrato de Transações" theme="h1" />
-  <div className="filters">
+      <div className="filters">
         <label>
           Status:
           <select value={status} onChange={(e) => setStatus(e.target.value)}>
@@ -67,7 +66,7 @@ export default function Extract() {
             onChange={(e) => setEndDate(e.target.value)}
           />
         </label>
-    </div>
+      </div>
       <table>
         <thead>
           <tr>
@@ -77,23 +76,30 @@ export default function Extract() {
             <th>Valor em pontos</th>
             <th>Valor</th>
             <th>Status</th>
-
           </tr>
         </thead>
-        <tbody>
-          {transactions.map((item) => (
-            <tr key={item.id}>
-              <td>{formatCPF(user?.cpf)}</td>
-              <td>{item.description}</td>
-           <td>{formatDate(item.transactionDate)}</td>
 
-              <td>R$ {Number(item.value).toFixed(2)}</td>
-              <td>{item.points}</td>
-              <td>{item.status}</td>
-            
-            
+        <tbody>
+          {transactions.length === 0
+            ?
+               <tr>
+              <td colSpan="6" style={{ textAlign: "center" }}>
+                Sem Transações.
+              </td>
             </tr>
-          ))}
+            
+        
+            : transactions.map((item) => (
+                <tr key={item.id}>
+                  <td>{formatCPF(user?.cpf)}</td>
+                  <td>{item.description}</td>
+                  <td>{formatDate(item.transactionDate)}</td>
+
+                  <td>R$ {Number(item.value).toFixed(2)}</td>
+                  <td>{item.points}</td>
+                  <td>{item.status}</td>
+                </tr>
+              ))}
         </tbody>
       </table>
     </div>

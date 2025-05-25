@@ -38,7 +38,7 @@ const AppRoutes = () => {
   
             <Route
               
-              path="/edit/:id"
+              path="cadastro/edit/:id"
               element={
                 <PrivateRoute>
                   <CadastroUsuario />
