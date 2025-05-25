@@ -50,11 +50,7 @@ export default function Navbar() {
           </li>
              </>
            )}
-                <li>
-            <Link to="/admin" className="link">
-              Relatório
-            </Link>
-          </li> 
+      
           <li className="dropdown">
             <span className="link" style={{ color: "rgb(13, 110, 253)" }}>
               Usuários

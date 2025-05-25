@@ -83,7 +83,7 @@ const dados = transactions.filter(
           <select value={status} onChange={(e) => setStatus(e.target.value)}>
             <option value="">Todos</option>
             <option value="aprovado">Aprovado</option>
-            <option value="pendente">Pendente</option>
+            <option value="reprovado">Reprovado</option>
             <option value="avaliando">Avaliando</option>
           </select>
         </label>

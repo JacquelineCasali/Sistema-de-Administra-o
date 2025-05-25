@@ -11,8 +11,9 @@ const router = express.Router();
 router.post('/login',loginController.login)
 router.post('/senha',loginController.senha)
 // usuarios adm ou user 
+router.get('/check-admin', userController.checkAdmin);
 router.post('/user',userController.create)
-router.post('/user', ValidateToken, IsAdmin, userController.create);
+// router.post('/user', ValidateToken, IsAdmin, userController.create);
 router.get('/user',ValidateToken,IsAdmin,userController.listar)
 router.get('/user/:id', ValidateToken,userController.ler)
 router.put("/user/:id", ValidateToken,userController.update);
